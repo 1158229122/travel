@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.itcast.travel.dao.IRouteDao">
+    <select id="findAll" resultType="Route" parameterType="int">
+        select * from tab_route where cid = #{cid}
+    </select>
+
+    <resultMap id="routeDetailMap" type="Route">
+
+        <!--关联上分类信息-->
+        <association property="category" column="cid" select="cn.itcast.travel.dao.ICategoryDao.findByCid"></association>
+        <!-- 关联上商家表一对一 property对应route的属性 column对应传递的参数 -->
+        <association property="seller" column="sid" select="cn.itcast.travel.dao.ISellerDao.findBySid"></association>
+        <!-- 关联上图片表一对多 -->
+        <collection property="routeImgList" column="rid"  select="cn.itcast.travel.dao.IRouteImgDao.findRouteImgsByRid"></collection>
+
+    </resultMap>
+    <select id="findDetail" resultMap="routeDetailMap" parameterType="int">
+        select * from tab_route where rid = #{rid}
+    </select>
+</mapper>
