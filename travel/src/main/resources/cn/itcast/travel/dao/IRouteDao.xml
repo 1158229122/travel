@@ -8,6 +8,9 @@
     </select>
 
     <resultMap id="routeDetailMap" type="Route">
+        <result property="cid" column="cid"/>
+        <result property="sid" column="sid"/>
+        <result property="rid" column="rid"/>
 
         <!--关联上分类信息-->
         <association property="category" column="cid" select="cn.itcast.travel.dao.ICategoryDao.findByCid"></association>

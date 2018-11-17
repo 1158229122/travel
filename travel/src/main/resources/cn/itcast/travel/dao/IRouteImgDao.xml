@@ -3,7 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.itcast.travel.dao.IRouteImgDao">
-    <select id="findRouteImgsByRid" resultType="RouteImg" parameterType="int">
-        select * from tab_route_img where rid = #{rid}
+    <resultMap id="RouteImgMap"    type="RouteImg">
+        <result property="rgid" column="rgid"/>
+        <result property="rid" column="routeid"/>
+        <result property="bigPic" column="bigPic"/>
+        <result property="smallPic" column="smallPic"/>
+    </resultMap>
+    <select id="findRouteImgsByRid" resultMap="RouteImgMap" parameterType="int">
+        select rgid,rid routeid,bigPic,smallPic from tab_route_img where rid = #{rid}
     </select>
 </mapper>
