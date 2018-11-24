@@ -16,4 +16,10 @@ public interface IRouteDao {
      * @return
      */
     Route findDetail(int rid);
+
+    /**
+     * 跟新收藏数量
+     * @param rid
+     */
+    void updateByRid(int rid);
 }

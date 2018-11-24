@@ -1,8 +1,11 @@
 package cn.itcast.travel.web.controller;
 
+import cn.itcast.travel.domain.Favorite;
 import cn.itcast.travel.domain.ResultInfo;
 import cn.itcast.travel.domain.User;
 import cn.itcast.travel.service.IUserService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -75,7 +78,25 @@ public class UserController {
         User user = (User) request.getSession().getAttribute("user");
 
             return user;
+    }
+    @RequestMapping("/findByUidFavoriteAndRoute")
+    public @ResponseBody PageInfo findByUidFavoriteAndRoute(HttpServletRequest request ) {
+        User user = findOne(request);
+        if(user ==null){
+            return null;
+        }
+        int uid = user.getUid();
+
+        PageInfo<Favorite> pageInfo = new PageInfo<Favorite>();
+        List<Favorite> favorites  = userService.findByUidFavoriteAndRoute(uid);
+        for (Favorite favorite : favorites) {
+            //封装线路表
+            favorite.getRoute();
+        }
+        System.out.println(favorites);
+            pageInfo.setList(favorites);
 
 
+        return pageInfo;
     }
 }

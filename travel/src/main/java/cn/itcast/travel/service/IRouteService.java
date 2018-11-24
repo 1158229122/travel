@@ -21,4 +21,10 @@ public interface IRouteService {
      * @return
      */
     Route findDetail(int rid);
+
+    /**
+     * 更新收藏数量
+     * @param rid
+     */
+    void updateByRid(int rid);
 }

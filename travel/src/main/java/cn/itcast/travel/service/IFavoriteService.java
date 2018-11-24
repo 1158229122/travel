@@ -3,6 +3,7 @@ package cn.itcast.travel.service;
 import cn.itcast.travel.domain.Favorite;
 
 
+import java.util.Date;
 import java.util.List;
 
 public interface IFavoriteService {
@@ -20,7 +21,7 @@ public interface IFavoriteService {
      * @param uid
      *
      */
-    void addFavorite(String rid, int uid);
+    void addFavorite(int rid, Date date, int uid);
 
     /**
      * 根据uid查询favorite

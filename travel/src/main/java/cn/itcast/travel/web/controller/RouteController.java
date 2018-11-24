@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -41,6 +42,7 @@ public class RouteController {
 
     @RequestMapping(path = "/findDetail")
     public @ResponseBody Route findDetail(int rid){
+        System.out.println(rid);
         Route route = routeService.findDetail(rid);
         //查询分类表
         route.getCategory();
@@ -48,39 +50,47 @@ public class RouteController {
         route.getRouteImgList();
         //需要查询商家表
         route.getSeller();
+        System.out.println(route);
         return route;
     }
 
     //是否被收藏
     @RequestMapping(path = "/isFavorite")
-    public  @ResponseBody boolean isFavorite(HttpServletRequest req, @Param("rid") int rid ,@Param("uid") int uid) throws ServletException, IOException {
+    public  @ResponseBody boolean isFavorite(HttpServletRequest req,  int rid ) throws ServletException, IOException {
         //1判断用户是否登录
         System.out.println(rid);
-        System.out.println(uid);
         User user = (User) req.getSession().getAttribute("user");
-//        int uid = 0;
-//        if (user == null) {
-//            //用户没有登录
-//            uid = 0;
-//        } else {
-//            //用户登陆了
-//            uid = user.getUid();
-//        }
+        int uid = 0;
+        if (user == null) {
+            //用户没有登录
+            uid = 0;
+        } else {
+            //用户登陆了
+            uid = user.getUid();
+        }
         //2到数据中查询用户是否已经进行了收藏
         Favorite favorite = favoriteService.isFavorite(rid, uid);
-        System.out.println(favorite);
-        return false;
+        boolean flag;//定义标记
+        if(favorite!=null){
+            flag = true;
+        }else {
+            flag = false;
+        }
+        return flag;
     }
+    @RequestMapping(path = "/addFavorite")
+    public  @ResponseBody boolean addFavorite(int rid,HttpServletRequest req) throws ServletException, IOException {
 
-    public void addFavorite(HttpServletRequest req) throws ServletException, IOException {
         //1获取参数行
         User user = (User) req.getSession().getAttribute("user");
         int uid = 0;
         if (user != null) {
             uid = user.getUid();
         }
-        String rid = req.getParameter("rid");
+
         //添加在喜欢列表中保存到数据库
-        favoriteService.addFavorite(rid, uid);
+        favoriteService.addFavorite(rid,new Date(),uid);
+        routeService.updateByRid(rid);
+        return true;
     }
 }

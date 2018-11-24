@@ -10,7 +10,11 @@
         <insert id="register" parameterType="User">
             insert into tab_user(username,password,name,birthday,sex,telephone,email,status,code) values(#{username},#{password},#{name},#{birthday},#{sex},#{telephone},#{email},#{status},#{code})
         </insert>
-    <select id="findUserByUsernameAndPassword" resultType="User" parameterType="User">
+        <select id="findUserByUsernameAndPassword" resultType="User" parameterType="User">
             select * from tab_user where username = #{username} and password = #{password}
+        </select>
+
+        <select id="findByUid" resultType="User" parameterType="int">
+            select * from tab_user where uid = #{uid}
         </select>
 </mapper>

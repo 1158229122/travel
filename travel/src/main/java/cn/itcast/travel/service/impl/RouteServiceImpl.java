@@ -34,4 +34,9 @@ public class RouteServiceImpl implements IRouteService {
         Route route = routeDao.findDetail(rid);
         return route;
     }
+
+    @Override
+    public void updateByRid(int rid) {
+        routeDao.updateByRid(rid);
+    }
 }

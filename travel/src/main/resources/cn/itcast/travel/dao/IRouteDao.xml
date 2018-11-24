@@ -23,4 +23,11 @@
     <select id="findDetail" resultMap="routeDetailMap" parameterType="int">
         select * from tab_route where rid = #{rid}
     </select>
+
+    <select id="updateByRid" parameterType="int">
+        update tab_route set count = count + 1 where rid = #{rid}
+    </select>
+
+    <select id="findByRid" resultType="Route" parameterType="int">
+        select * from tab_route where rid = #{rid}    </select>
 </mapper>

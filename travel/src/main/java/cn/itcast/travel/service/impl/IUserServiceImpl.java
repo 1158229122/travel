@@ -1,6 +1,8 @@
 package cn.itcast.travel.service.impl;
 
+import cn.itcast.travel.dao.IFavoriteDao;
 import cn.itcast.travel.dao.IUserDao;
+import cn.itcast.travel.domain.Favorite;
 import cn.itcast.travel.domain.User;
 import cn.itcast.travel.service.IUserService;
 import cn.itcast.travel.util.UuidUtil;
@@ -8,10 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class IUserServiceImpl implements IUserService {
     @Autowired
     private IUserDao userDao;
+    @Autowired
+    private IFavoriteDao favoriteDao;
+
     @Override
     public List<User> findAll() {
         List<User> users = userDao.findAll();
@@ -31,11 +37,17 @@ public class IUserServiceImpl implements IUserService {
     public User findUserByUsernameAndPassword(User user) {
         User loginUser = null;
         try {
-           loginUser = userDao.findUserByUsernameAndPassword(user);
+            loginUser = userDao.findUserByUsernameAndPassword(user);
         } catch (Exception e) {
             System.out.println("登录出错");
 
         }
         return loginUser;
+    }
+
+    @Override
+    public List<Favorite> findByUidFavoriteAndRoute(int uid) {
+        List<Favorite> favorites = favoriteDao.findByUidFavoriteAndRoute(uid);
+        return favorites;
     }
 }

@@ -3,16 +3,29 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.itcast.travel.dao.IFavoriteDao">
+
     <select id="findByRidAndUid" resultType="Favorite" >
         select * from tab_favorite where rid=#{rid} and uid = #{uid}
     </select>
+
     <select id="findByUid" resultType="Favorite" parameterType="int">
         select * from tab_favorite where uid = #{uid}
     </select>
+
     <select id="findCount" resultType="int" parameterType="int">
         select count(*) from tab_favorite where rid = #{rid}
     </select>
-    <update id="add" parameterType="int" >
-        insert into tab_favorite VALUES(null,?,?);
+
+    <update id="add"  >
+        insert into tab_favorite VALUES(#{rid},#{date},#{uid});
     </update>
+
+    <resultMap id="UserAndRouteMap" type="Favorite">
+        <collection property="route" column="rid" select="cn.itcast.travel.dao.IRouteDao.findByRid"></collection>
+        <collection property="user" column="uid" select="cn.itcast.travel.dao.IUserDao.findByUid"></collection>
+    </resultMap>
+
+    <select id="findByUidFavoriteAndRoute" resultMap="UserAndRouteMap" parameterType="int">
+        select * from tab_favorite where uid = #{uid}
+    </select>
 </mapper>

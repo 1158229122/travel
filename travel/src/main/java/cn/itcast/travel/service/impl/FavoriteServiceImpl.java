@@ -9,6 +9,7 @@ import cn.itcast.travel.service.IFavoriteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 @Service
 public class FavoriteServiceImpl implements IFavoriteService {
@@ -22,8 +23,8 @@ public class FavoriteServiceImpl implements IFavoriteService {
     }
 
     @Override
-    public void addFavorite(String rid, int uid) {
-        favoriteDao.add(Integer.parseInt(rid),uid);
+    public void addFavorite(int rid, Date date, int uid) {
+        favoriteDao.add(rid,date,uid);
     }
 
     @Override

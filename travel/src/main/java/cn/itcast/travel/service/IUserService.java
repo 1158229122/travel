@@ -1,5 +1,6 @@
 package cn.itcast.travel.service;
 
+import cn.itcast.travel.domain.Favorite;
 import cn.itcast.travel.domain.User;
 
 
@@ -25,4 +26,11 @@ public interface IUserService {
      * @return
      */
     User findUserByUsernameAndPassword(User user);
+
+    /**
+     * 根据用户uid查询用户喜欢的路线
+     * @param uid
+     * @return
+     */
+    List<Favorite> findByUidFavoriteAndRoute(int uid);
 }
